@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package masterworker;
+
+service MapReduce{
+    rpc AssignMapper(MapperQuery) returns (MapperReply){}
+    rpc AssignReducer(ReducerQuery) returns (ReducerReply){}
+}
+
+message MapperQuery{
+    repeated GetFileShard shards = 1;
+    int64 num_output = 2;
+    string output_dir = 3;
+    int32 shard_ID = 4;
+    int32 m_r = 5;
+    string user_ID = 6;
+}
+
+message MapperReply{
+    bool success = 2;
+}
+
+message ReducerQuery{
+    repeated string file_path = 1;
+    int64 num_output = 2;
+    string output_dir = 3;
+}
+
+message ReducerReply{
+    bool success = 1;
+}
+
+message GetFileShard{
+    string shard_path = 1;
+    int64 offset_start = 2;
+    int64 offset_end =3;
+}
